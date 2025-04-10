@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TraceInterceptor } from './interceptors/trace.interceptor';
 
 @Module({
   imports: [
@@ -19,6 +21,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TraceInterceptor,
+    },
+  ],
 })
 export class AppModule {}
