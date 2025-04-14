@@ -20,7 +20,7 @@ import { CustomerEntity } from './modules/customer/entities/customer.entity';
       database: process.env.DB_NAME,
       entities: [CustomerEntity],
       synchronize: true,
-      ssl: true,
+      //ssl: true,
     }),
     CustomerModule,
   ],

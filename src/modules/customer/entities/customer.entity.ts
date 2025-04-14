@@ -1,46 +1,53 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity({ name: 'cliente' })
+@Entity('customer')
 export class CustomerEntity {
   @ApiProperty()
-  @PrimaryGeneratedColumn({ name: 'id_cliente', type: 'int' })
-  clienteId: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ApiPropertyOptional()
-  @Column({ name: 'cpf_cnpj', type: 'varchar', length: 20, nullable: true })
-  cpfCnpj?: string;
+  @Column({ nullable: true, length: 11 })
+  cpf?: string;
 
   @ApiPropertyOptional()
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  nome?: string;
+  @Column({ nullable: true, length: 14 })
+  cnpj?: string;
+
+  @ApiProperty()
+  @Column()
+  name: string;
 
   @ApiPropertyOptional()
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  segmento?: string;
+  @Column({ length: 100, nullable: true })
+  segment?: string;
 
   @ApiPropertyOptional()
-  @Column({
-    name: 'publico_alvo',
-    type: 'varchar',
-    length: 100,
-    nullable: true,
-  })
-  publicoAlvo?: string;
+  @Column({ name: 'target_audience', length: 100, nullable: true })
+  targetAudience?: string;
+ 
+  @ApiPropertyOptional()
+  @Column({ length: 255, nullable: true })
+  email?: string;
 
   @ApiPropertyOptional()
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  rua?: string;
+  @Column({ length: 20, nullable: true })
+  phone?: string;
+  
+  @ApiPropertyOptional()
+  @Column({ nullable: true })
+  city?: string;
 
   @ApiPropertyOptional()
-  @Column({ type: 'int', nullable: true })
-  numero?: number;
+  @Column({ nullable: true })
+  state?: string;
 
-  @ApiPropertyOptional()
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  cidade?: string;
+  @ApiProperty()
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
 
-  @ApiPropertyOptional()
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  estado?: string;
+  @ApiProperty()
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 }

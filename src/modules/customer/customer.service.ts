@@ -24,15 +24,15 @@ export class CustomerService {
     return await this.customerRepository.find();
   }
 
-  async findOne(id: number, traceId: string) {
+  async findOne(id: string, traceId: string) {
     this.logger.log(`[${traceId}] Buscando cliente com ID: ${id}`);
     return await this.customerRepository.findOne({
-      where: { clienteId: id },
+      where: { id: id },
     });
   }
 
   async update(
-    id: number,
+    id: string,
     updateCustomerDto: UpdateCustomerDto,
     traceId: string,
   ) {
@@ -40,7 +40,7 @@ export class CustomerService {
     return await this.customerRepository.update(id, updateCustomerDto);
   }
 
-  async remove(id: number, traceId: string) {
+  async remove(id: string, traceId: string) {
     this.logger.log(`[${traceId}] Removendo cliente com ID: ${id}`);
     return await this.customerRepository.delete(id);
   }

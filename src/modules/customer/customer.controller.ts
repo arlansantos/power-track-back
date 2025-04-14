@@ -41,7 +41,7 @@ export class CustomerController {
   @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async findOne(@Param('id') id: string, @Request() req) {
     const traceId = req.traceId;
-    return await this.customerService.findOne(+id, traceId);
+    return await this.customerService.findOne(id, traceId);
   }
 
   @Patch(':id')
@@ -54,7 +54,7 @@ export class CustomerController {
     @Request() req,
   ) {
     const traceId = req.traceId;
-    return await this.customerService.update(+id, updateCustomerDto, traceId);
+    return await this.customerService.update(id, updateCustomerDto, traceId);
   }
 
   @Delete(':id')
@@ -63,6 +63,6 @@ export class CustomerController {
   @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async remove(@Param('id') id: string, @Request() req) {
     const traceId = req.traceId;
-    return await this.customerService.remove(+id, traceId);
+    return await this.customerService.remove(id, traceId);
   }
 }
