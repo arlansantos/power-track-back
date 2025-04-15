@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TraceInterceptor } from './interceptors/trace.interceptor';
 import { CustomerEntity } from './modules/customer/entities/customer.entity';
+import { ContractModule } from './modules/contract/contract.module';
+import { ContractEntity } from './modules/contract/entities/contract.entity';
 
 @Module({
   imports: [
@@ -18,11 +20,12 @@ import { CustomerEntity } from './modules/customer/entities/customer.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [CustomerEntity],
+      entities: [CustomerEntity, ContractEntity],
       synchronize: true,
       //ssl: true,
     }),
     CustomerModule,
+    ContractModule,
   ],
   controllers: [],
   providers: [

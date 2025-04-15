@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
+import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
-@Entity('customer')
+@Entity('customers')
 export class CustomerEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
@@ -42,6 +43,9 @@ export class CustomerEntity {
   @ApiPropertyOptional()
   @Column({ nullable: true })
   state?: string;
+
+  @OneToMany(() => ContractEntity, (contract) => contract.customer)
+  contracts: ContractEntity[];
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
