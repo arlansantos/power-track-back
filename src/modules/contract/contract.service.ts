@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from 'src/utils/dto/page.dto';
 import { IPaginateResult } from 'src/utils/helpers/paginate-result.interface';
 import { paginate } from 'src/utils/helpers/paginate';
+import { CustomerService } from '../customer/customer.service';
 
 @Injectable()
 export class ContractService {
@@ -15,18 +16,27 @@ export class ContractService {
   constructor(
     @InjectRepository(ContractEntity)
     private readonly contractRepository: Repository<ContractEntity>,
+    private readonly customerService: CustomerService,
   ) {}
 
   async create(createContractDto: CreateContractDto, traceId: string) {
     this.logger.log(`[${traceId}] Criando contrato...`);
 
-    const contract = await this.contractRepository.save(createContractDto);
+    const customer = await this.customerService.findOne(
+      createContractDto.customerId, traceId)
+
+    const contract = this.contractRepository.create({
+      ...createContractDto,
+      customer,
+    })
+
+    const contractSaved = await this.contractRepository.save(contract);
 
     this.logger.log(
-      `[${traceId}] Contrato criado: ${JSON.stringify(contract)}`,
+      `[${traceId}] Contrato criado: ${JSON.stringify(contractSaved)}`,
     );
 
-    return contract;
+    return contractSaved;
   }
 
   async findAll(pageDto: PageDto, traceId: string): Promise<IPaginateResult<ContractEntity>> {

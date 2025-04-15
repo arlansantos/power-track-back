@@ -23,6 +23,7 @@ export class ContractController {
     type: ContractEntity,
   })
   @ApiResponse({ status: 400, description: 'Parâmetros inválidos' })
+  @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async create(
     @Body() createContractDto: CreateContractDto,
     @Request() req,
