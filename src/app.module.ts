@@ -7,6 +7,8 @@ import { TraceInterceptor } from './interceptors/trace.interceptor';
 import { CustomerEntity } from './modules/customer/entities/customer.entity';
 import { ContractModule } from './modules/contract/contract.module';
 import { ContractEntity } from './modules/contract/entities/contract.entity';
+import { EmployeeModule } from './modules/employee/employee.module';
+import { EmployeeEntity } from './modules/employee/entities/employee.entity';
 
 @Module({
   imports: [
@@ -20,12 +22,13 @@ import { ContractEntity } from './modules/contract/entities/contract.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [CustomerEntity, ContractEntity],
+      entities: [CustomerEntity, ContractEntity, EmployeeEntity],
       synchronize: true,
       //ssl: true,
     }),
     CustomerModule,
     ContractModule,
+    EmployeeModule,
   ],
   controllers: [],
   providers: [
