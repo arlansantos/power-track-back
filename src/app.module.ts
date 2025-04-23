@@ -9,6 +9,8 @@ import { ContractModule } from './modules/contract/contract.module';
 import { ContractEntity } from './modules/contract/entities/contract.entity';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { EmployeeEntity } from './modules/employee/entities/employee.entity';
+import { ServiceModule } from './modules/service/service.module';
+import { ServiceEntity } from './modules/service/entities/service.entity';
 
 @Module({
   imports: [
@@ -22,13 +24,14 @@ import { EmployeeEntity } from './modules/employee/entities/employee.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [CustomerEntity, ContractEntity, EmployeeEntity],
+      entities: [CustomerEntity, ContractEntity, EmployeeEntity, ServiceEntity],
       synchronize: true,
       //ssl: true,
     }),
     CustomerModule,
     ContractModule,
     EmployeeModule,
+    ServiceModule,
   ],
   controllers: [],
   providers: [
