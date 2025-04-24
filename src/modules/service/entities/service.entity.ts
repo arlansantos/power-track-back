@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ProjectEntity } from 'src/modules/project/entities/project.entity';
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn,
+  OneToMany
 } from 'typeorm';
 
 @Entity('services')
@@ -24,6 +26,9 @@ export class ServiceEntity {
   @ApiPropertyOptional()
   @Column({ type: 'decimal', precision: 3, scale: 2, nullable: true })
   rating: number;
+
+  @OneToMany(() => ProjectEntity, (project) => project.service)
+  projects: ProjectEntity[];
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
