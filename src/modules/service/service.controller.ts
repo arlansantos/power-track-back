@@ -40,6 +40,32 @@ export class ServiceController {
     return await this.serviceService.findAll(pageDto, traceId);
   }
 
+  @Get('/total')
+  @ApiOperation({ summary: 'Buscar o total de serviços' })
+  @ApiResponse({ status: 200, description: 'Total de serviços' })
+  async getTotal(@Request() req) {
+    const traceId = req.traceId;
+    return await this.serviceService.getTotal(traceId);
+  }
+
+  @Get('/top-rating')
+  @ApiOperation({ summary: 'Buscar os serviços com melhor avaliação' })
+  @ApiResponse({ status: 200, description: 'Serviços com melhor avaliação' })
+  @ApiResponse({ status: 404, description: 'Serviço não encontrado' })
+  async getTopRating(@Request() req) {
+    const traceId = req.traceId;
+    return await this.serviceService.getTopRating(traceId);
+  }
+
+  @Get('/by-niche')
+  @ApiOperation({ summary: 'Buscar serviços por nicho' })
+  @ApiResponse({ status: 200, description: 'Serviços encontrados' })
+  @ApiResponse({ status: 404, description: 'Serviço não encontrado' })
+  async getByNiche(@Query('niche') niche: string, @Request() req) {
+    const traceId = req.traceId;
+    return await this.serviceService.getByNiche(niche, traceId);
+  }
+  
   @Get(':id')
   @ApiOperation({ summary: 'Buscar um serviço pelo ID' })
   @ApiResponse({ status: 200,

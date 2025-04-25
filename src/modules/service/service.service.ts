@@ -37,6 +37,46 @@ private readonly logger = new Logger(ServiceService.name);
     return await paginate( queryBuilder, 'service', pageDto);
   }
 
+  async getTotal(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Buscando total de serviços...`);
+
+    const total = await this.serviceRepository.count();
+
+    this.logger.log(`[${traceId}] Total de serviços: ${total}`);
+
+    return total;
+  }
+
+  async getTopRating(traceId: string): Promise<ServiceEntity[]> {
+    this.logger.log(`[${traceId}] Buscando serviços com melhor avaliação...`);
+
+    const services = await this.serviceRepository.find({
+      select: ['name', 'rating'],
+      order: { rating: 'DESC' },
+      take: 5,
+    });
+
+    return services;
+  }
+
+  async getByNiche(niche: string, traceId: string): Promise<ServiceEntity[]> {
+    this.logger.log(`[${traceId}] Buscando serviços por nicho ${niche}...`);
+
+    const services = await this.serviceRepository.find({
+      select: ['name', 'niche', 'rating'],
+      where: { niche },
+      order: { rating: 'DESC' },
+    });
+
+    if (!services.length) {
+      this.logger.warn(`[${traceId}] Nenhum serviço encontrado para o nicho ${niche}.`);
+      throw new NotFoundException(`Nenhum serviço encontrado para o nicho ${niche}.`);
+    }
+
+    return services;
+  }
+
+  
   async findOne(id: string, traceId: string): Promise<ServiceEntity> {
     this.logger.log(`[${traceId}] Buscando serviço com ID ${id}...`);
 
