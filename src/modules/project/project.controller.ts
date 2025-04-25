@@ -40,6 +40,17 @@ export class ProjectController {
     return await this.projectService.findAll(pageDto, traceId);
   }
 
+  @Get('total')
+  @ApiOperation({ summary: 'Buscar total de projetos' })
+  @ApiResponse({ status: 200,
+    description: 'Total de projetos',
+    type: Number
+  })
+  async getTotal(@Request() req): Promise<number> {
+    const traceId = req.traceId;
+    return await this.projectService.getTotal(traceId);
+  }
+  
   @Get(':id')
   @ApiOperation({ summary: 'Buscar um projeto pelo ID' })
   @ApiResponse({ status: 200,

@@ -64,6 +64,16 @@ private readonly logger = new Logger(ProjectService.name);
     return await paginate( queryBuilder, 'project', pageDto);
   }
 
+  async getTotal(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Contando projetos...`);
+
+    const count = await this.projectRepository.count();
+
+    this.logger.log(`[${traceId}] Total de projetos: ${count}`);
+
+    return count;
+  }
+  
   async findOne(id: string, traceId: string): Promise<ProjectEntity> {
     this.logger.log(`[${traceId}] Buscando projeto com ID ${id}...`);
 
