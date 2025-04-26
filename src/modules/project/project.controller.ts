@@ -50,6 +50,22 @@ export class ProjectController {
     const traceId = req.traceId;
     return await this.projectService.getTotal(traceId);
   }
+
+  @Get('employee-most-assigned')
+  @ApiOperation({ summary: 'Buscar funcionarios mais atribuídos em projetos' })
+  @ApiResponse({ status: 200,
+    description: 'Funcionarios mais atribuídos em projetos',
+    type: ProjectEntity
+  })
+  @ApiResponse({ status: 404, description: 'Nenhum funcionário encontrado' })
+  async getEmployeeMostAssigned(
+    @Request() req,
+    @Query('limit') limit?: number,
+  ): Promise<ProjectEntity[]> {
+    const traceId = req.traceId;
+    return await this.projectService.getEmployeeMostAssigned(traceId, limit);
+  }
+
   
   @Get(':id')
   @ApiOperation({ summary: 'Buscar um projeto pelo ID' })

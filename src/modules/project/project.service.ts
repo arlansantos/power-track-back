@@ -73,6 +73,30 @@ private readonly logger = new Logger(ProjectService.name);
 
     return count;
   }
+
+  async getEmployeeMostAssigned(traceId: string, limit: number = 1): Promise<ProjectEntity[]> {
+    this.logger.log(`[${traceId}] Buscando funcionarios mais atribuídos em projetos...`);
+
+    const mostAssigned = await this.projectRepository
+      .createQueryBuilder('project')
+      .innerJoin('project.employee', 'employee')
+      .select([
+        'employee.id AS employeeId',
+        'employee.name AS employeeName',
+        'COUNT(project.id) AS projectCount',
+      ])
+      .groupBy('employee.id')
+      .orderBy('projectCount', 'DESC')
+      .limit(limit)
+      .getRawMany();
+
+    if (!mostAssigned) {
+      this.logger.warn(`[${traceId}] Nenhum funcionário atribuído em projeto foi não encontrado.`);
+      throw new NotFoundException(`Nenhum funcionário atribuído em projeto foi não encontrado.`);
+    }
+
+    return mostAssigned;
+  }
   
   async findOne(id: string, traceId: string): Promise<ProjectEntity> {
     this.logger.log(`[${traceId}] Buscando projeto com ID ${id}...`);
