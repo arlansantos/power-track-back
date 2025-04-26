@@ -47,6 +47,66 @@ export class ContractService {
     return await paginate( queryBuilder, 'contract', pageDto);
   }
 
+  async getTotal(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Contando contratos...`);
+
+    const total = await this.contractRepository.count();
+
+    this.logger.log(`[${traceId}] Total de contratos: ${total}`);
+
+    return total;
+  }
+
+  async getAverageValue(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Calculando média dos valores dos contratos...`);
+
+    const total = await this.contractRepository.createQueryBuilder('contract')
+      .select('AVG(contract.totalValue)', 'averageValue')
+      .getRawOne();
+    
+    return total.averageValue;
+  }
+
+  async getMaxValue(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Calculando maior valor dos contratos...`);
+
+    const total = await this.contractRepository.createQueryBuilder('contract')
+      .select('MAX(contract.totalValue)', 'maxValue')
+      .getRawOne();
+    
+    return total.maxValue;
+  }
+
+  async getMinValue(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Calculando menor valor dos contratos...`);
+
+    const total = await this.contractRepository.createQueryBuilder('contract')
+      .select('MIN(contract.totalValue)', 'minValue')
+      .getRawOne();
+    
+    return total.minValue;
+  }
+
+  async getSumValue(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Calculando soma dos valores dos contratos...`);
+
+    const total = await this.contractRepository.createQueryBuilder('contract')
+      .select('SUM(contract.totalValue)', 'sumValue')
+      .getRawOne();
+    
+    return total.sumValue;
+  }
+
+  async getCountByStatus(status: string, traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Contando contratos com status ${status}...`);
+
+    const contracts = await this.contractRepository.createQueryBuilder('contract')
+      .where('contract.status = :status', { status })
+      .getCount();
+    
+    return contracts;
+  }
+
   async findOne(id: string, traceId: string): Promise<ContractEntity> {
     this.logger.log(`[${traceId}] Buscando contrato com ID ${id}...`);
 
