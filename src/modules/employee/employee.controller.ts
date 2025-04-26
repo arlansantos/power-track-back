@@ -40,6 +40,17 @@ export class EmployeeController {
     return await this.employeeService.findAll(pageDto, traceId);
   }
 
+  @Get('total')
+  @ApiOperation({ summary: 'Buscar total de funcionarios' })
+  @ApiResponse({ status: 200,
+    description: 'Total de funcionarios',
+    type: Number
+  })
+  async getTotal(@Request() req): Promise<number> {
+    const traceId = req.traceId;
+    return await this.employeeService.getTotal(traceId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Buscar um funcionario pelo ID' })
   @ApiResponse({ status: 200,

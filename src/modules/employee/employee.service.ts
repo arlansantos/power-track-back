@@ -37,6 +37,16 @@ private readonly logger = new Logger(EmployeeService.name);
     return await paginate( queryBuilder, 'employee', pageDto);
   }
 
+  async getTotal(traceId: string): Promise<number> {
+    this.logger.log(`[${traceId}] Contando funcionarios...`);
+
+    const total = await this.employeeRepository.count();
+
+    this.logger.log(`[${traceId}] Total de funcionarios: ${total}`);
+
+    return total;
+  }
+
   async findOne(id: string, traceId: string): Promise<EmployeeEntity> {
     this.logger.log(`[${traceId}] Buscando funcionario com ID ${id}...`);
 
