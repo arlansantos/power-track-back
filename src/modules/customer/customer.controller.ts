@@ -51,6 +51,48 @@ export class CustomerController {
     return await this.customerService.findAll(pageDto, traceId);
   }
 
+  @Get('total')
+  @ApiOperation({ summary: 'Contar todos os clientes' })
+  @ApiResponse({ status: 200,
+    description: 'Total de clientes',
+    type: Number
+  })
+  @ApiResponse({ status: 500, description: 'Erro ao contar clientes' })
+  async getTotal(@Request() req): Promise<number> {
+    const traceId = req.traceId;
+    return await this.customerService.getTotal(traceId);
+  }
+  @Get('state/:state')
+  @ApiOperation({ summary: 'Contar clientes por estado' })
+  @ApiResponse({ status: 200,
+    description: 'Total de clientes por estado',
+    type: Number
+  })
+  @ApiResponse({ status: 400, description: 'Estado inválido' })
+  @ApiResponse({ status: 404, description: 'Estado não encontrado' })
+  async getCountByState(
+    @Param('state') state: string,
+    @Request() req,
+  ): Promise<number> {
+    const traceId = req.traceId;
+    return await this.customerService.getCountByState(state, traceId);
+  }
+  @Get('segment/:segment')
+  @ApiOperation({ summary: 'Contar clientes por segmento' })
+  @ApiResponse({ status: 200,
+    description: 'Total de clientes por segmento',
+    type: Number
+  })
+  @ApiResponse({ status: 400, description: 'Segmento inválido' })
+  @ApiResponse({ status: 404, description: 'Segmento não encontrado' })
+  async getCountBySegment(
+    @Param('segment') segment: string,
+    @Request() req,
+  ): Promise<number> {
+    const traceId = req.traceId;
+    return await this.customerService.getCountBySegment(segment, traceId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Buscar um cliente pelo ID' })
   @ApiResponse({ status: 200,
