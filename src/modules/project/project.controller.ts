@@ -40,6 +40,17 @@ export class ProjectController {
     return await this.projectService.findAll(pageDto, traceId);
   }
 
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Buscar todos os projetos para o dashboard' })
+  @ApiResponse({ status: 200,
+    description: 'Lista de projetos para o dashboard',
+    type: ProjectEntity
+  })
+  async dashboard(@Request() req): Promise<ProjectEntity[]> {
+    const traceId = req.traceId;
+    return await this.projectService.dashboard(traceId);
+  }
+
   @Get('total')
   @ApiOperation({ summary: 'Buscar total de projetos' })
   @ApiResponse({ status: 200,

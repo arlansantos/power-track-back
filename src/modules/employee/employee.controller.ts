@@ -40,6 +40,17 @@ export class EmployeeController {
     return await this.employeeService.findAll(pageDto, traceId);
   }
 
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Buscar todos os funcionarios para o dashboard' })
+  @ApiResponse({ status: 200,
+    description: 'Lista de funcionarios para o dashboard',
+    type: EmployeeEntity
+  })
+  async dashboard(@Request() req): Promise<EmployeeEntity[]> {
+    const traceId = req.traceId;
+    return await this.employeeService.dashboard(traceId);
+  }
+
   @Get('total')
   @ApiOperation({ summary: 'Buscar total de funcionarios' })
   @ApiResponse({ status: 200,

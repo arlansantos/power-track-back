@@ -47,6 +47,14 @@ export class ContractService {
     return await paginate( queryBuilder, 'contract', pageDto);
   }
 
+  async dashboard(traceId: string): Promise<ContractEntity[]> {
+    this.logger.log(`[${traceId}] Listando contratos...`);
+
+    const contracts = await this.contractRepository.find();
+
+    return contracts;
+  }
+
   async getTotal(traceId: string): Promise<number> {
     this.logger.log(`[${traceId}] Contando contratos...`);
 

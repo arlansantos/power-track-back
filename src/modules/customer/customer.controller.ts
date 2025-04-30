@@ -51,6 +51,17 @@ export class CustomerController {
     return await this.customerService.findAll(pageDto, traceId);
   }
 
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Buscar todos os clientes para o dashboard' })
+  @ApiResponse({ status: 200,
+    description: 'Lista de clientes para o dashboard',
+    type: CustomerEntity
+  })
+  async dashboard(@Request() req): Promise<CustomerEntity[]> {
+    const traceId = req.traceId;
+    return await this.customerService.dashboard(traceId);
+  }
+
   @Get('total')
   @ApiOperation({ summary: 'Contar todos os clientes' })
   @ApiResponse({ status: 200,

@@ -40,6 +40,17 @@ export class ServiceController {
     return await this.serviceService.findAll(pageDto, traceId);
   }
 
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Buscar todos os serviços para o dashboard' })
+  @ApiResponse({ status: 200,
+    description: 'Lista de serviços para o dashboard',
+    type: ServiceEntity
+  })
+  async dashboard(@Request() req): Promise<ServiceEntity[]> {
+    const traceId = req.traceId;
+    return await this.serviceService.dashboard(traceId);
+  }
+
   @Get('/total')
   @ApiOperation({ summary: 'Buscar o total de serviços' })
   @ApiResponse({ status: 200, description: 'Total de serviços' })

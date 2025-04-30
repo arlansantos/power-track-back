@@ -37,6 +37,14 @@ export class CustomerService {
     return await paginate( queryBuilder, 'customer', pageDto);
   }
 
+  async dashboard(traceId: string): Promise<CustomerEntity[]> {
+    this.logger.log(`[${traceId}] Listando clientes...`);
+
+    const customers = await this.customerRepository.find();
+
+    return customers;
+  }
+
   async getTotal(traceId: string): Promise<number> {
     this.logger.log(`[${traceId}] Contando clientes...`);
 
@@ -67,6 +75,8 @@ export class CustomerService {
     
     return count;
   }
+
+
 
   async findOne(id: string, traceId: string): Promise<CustomerEntity> {
     this.logger.log(`[${traceId}] Buscando cliente com ID ${id}...`);

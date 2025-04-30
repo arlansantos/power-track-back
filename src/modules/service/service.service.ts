@@ -37,6 +37,14 @@ private readonly logger = new Logger(ServiceService.name);
     return await paginate( queryBuilder, 'service', pageDto);
   }
 
+  async dashboard(traceId: string): Promise<ServiceEntity[]> {
+    this.logger.log(`[${traceId}] Listando serviços...`);
+
+    const services = await this.serviceRepository.find();
+
+    return services;
+  }
+
   async getTotal(traceId: string): Promise<number> {
     this.logger.log(`[${traceId}] Buscando total de serviços...`);
 

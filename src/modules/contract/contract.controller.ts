@@ -47,6 +47,20 @@ export class ContractController {
     return await this.contractService.findAll(pageDto, traceId);
   }
 
+  @Get('dashboard')
+  @ApiOperation({
+    summary: 'Buscar todos os contratos para o dashboard',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Contratos encontrados com sucesso',
+    type: ContractEntity,
+  })
+  async dashboard(@Request() req): Promise<ContractEntity[]> {
+    const traceId = req.traceId;
+    return await this.contractService.dashboard(traceId);
+  }
+
   @Get('total')
   @ApiOperation({
     summary: 'Buscar total de contratos',
