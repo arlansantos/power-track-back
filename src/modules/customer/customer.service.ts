@@ -37,12 +37,54 @@ export class CustomerService {
     return await paginate( queryBuilder, 'customer', pageDto);
   }
 
-  async dashboard(traceId: string): Promise<CustomerEntity[]> {
+  async dashboard(traceId: string): Promise<any> {
     this.logger.log(`[${traceId}] Listando clientes...`);
 
     const customers = await this.customerRepository.find();
+    const total = customers.length;
+    const totalByState = await this.getCountGroupedByState(traceId);
+    const totalBySegment = await this.getCountGroupedBySegment(traceId);
 
-    return customers;
+    return {
+      total,
+      totalByState,
+      totalBySegment,
+      customers,
+    }
+  }
+
+  async getCountGroupedByState(traceId: string): Promise<{ state: string, quantity: number }[]> {
+    this.logger.log(`[${traceId}] Agrupando e contando clientes por estado...`);
+  
+    const result = await this.customerRepository
+      .createQueryBuilder('customer')
+      .select('customer.state', 'state')
+      .addSelect('COUNT(*)', 'quantity')
+      .groupBy('customer.state')
+      .orderBy('quantity', 'DESC')
+      .getRawMany();
+  
+    return result.map(item => ({
+      state: item.state,
+      quantity: Number(item.quantity),
+    }));
+  }
+
+  async getCountGroupedBySegment(traceId: string): Promise<{ segment: string, quantity: number }[]> {
+    this.logger.log(`[${traceId}] Agrupando e contando clientes por segmento...`);
+  
+    const result = await this.customerRepository
+      .createQueryBuilder('customer')
+      .select('customer.segment', 'segment')
+      .addSelect('COUNT(*)', 'quantity')
+      .groupBy('customer.segment')
+      .orderBy('quantity', 'DESC')
+      .getRawMany();
+  
+    return result.map(item => ({
+      segment: item.segment ?? 'Não informado',
+      quantity: Number(item.quantity),
+    }));
   }
 
   async getTotal(traceId: string): Promise<number> {
@@ -75,8 +117,6 @@ export class CustomerService {
     
     return count;
   }
-
-
 
   async findOne(id: string, traceId: string): Promise<CustomerEntity> {
     this.logger.log(`[${traceId}] Buscando cliente com ID ${id}...`);
