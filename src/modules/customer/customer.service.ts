@@ -37,20 +37,12 @@ export class CustomerService {
     return await paginate( queryBuilder, 'customer', pageDto);
   }
 
-  async dashboard(traceId: string): Promise<any> {
+  async dashboard(traceId: string): Promise<CustomerEntity[]> {
     this.logger.log(`[${traceId}] Listando clientes...`);
 
     const customers = await this.customerRepository.find();
-    const total = customers.length;
-    const totalByState = await this.getCountGroupedByState(traceId);
-    const totalBySegment = await this.getCountGroupedBySegment(traceId);
 
-    return {
-      total,
-      totalByState,
-      totalBySegment,
-      customers,
-    }
+    return customers;
   }
 
   async getCountGroupedByState(traceId: string): Promise<{ state: string, quantity: number }[]> {

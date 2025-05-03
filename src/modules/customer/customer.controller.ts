@@ -53,11 +53,11 @@ export class CustomerController {
 
   @Get('dashboard')
   @ApiOperation({ summary: 'Buscar todos os clientes para o dashboard' })
-  // @ApiResponse({ status: 200,
-  //   description: 'Lista de clientes para o dashboard',
-  //   type: CustomerEntity
-  // })
-  async dashboard(@Request() req): Promise<any> {
+  @ApiResponse({ status: 200,
+    description: 'Lista de clientes para o dashboard',
+    type: CustomerEntity
+  })
+  async dashboard(@Request() req): Promise<CustomerEntity[]> {
     const traceId = req.traceId;
     return await this.customerService.dashboard(traceId);
   }
