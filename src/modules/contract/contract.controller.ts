@@ -56,7 +56,7 @@ export class ContractController {
     description: 'Contratos encontrados com sucesso',
     type: ContractEntity,
   })
-  async dashboard(@Request() req): Promise<ContractEntity[]> {
+  async dashboard(@Request() req): Promise<any[]> {
     const traceId = req.traceId;
     return await this.contractService.dashboard(traceId);
   }

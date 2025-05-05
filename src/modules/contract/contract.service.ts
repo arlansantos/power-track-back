@@ -47,12 +47,21 @@ export class ContractService {
     return await paginate( queryBuilder, 'contract', pageDto);
   }
 
-  async dashboard(traceId: string): Promise<ContractEntity[]> {
+  async dashboard(traceId: string): Promise<any[]> {
     this.logger.log(`[${traceId}] Listando contratos...`);
-
-    const contracts = await this.contractRepository.find();
-
-    return contracts;
+  
+    const contracts = await this.contractRepository
+      .createQueryBuilder('contract')
+      .leftJoin('contract.customer', 'customer')
+      .addSelect(['customer.id'])
+      .getMany();
+  
+    
+    return contracts.map(contract => ({
+      ...contract,
+      id_customer: contract.customer?.id,
+      customer: undefined, 
+    }));
   }
 
   async getTotal(traceId: string): Promise<number> {
