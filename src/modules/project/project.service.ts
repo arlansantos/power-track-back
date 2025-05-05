@@ -64,13 +64,25 @@ private readonly logger = new Logger(ProjectService.name);
     return await paginate( queryBuilder, 'project', pageDto);
   }
 
-  async dashboard(traceId: string): Promise<ProjectEntity[]> {
+  async dashboard(traceId: string): Promise<any[]> {
     this.logger.log(`[${traceId}] Listando projetos...`);
-
-    const projects = await this.projectRepository.find();
-
-    return projects;
+  
+    const projects = await this.projectRepository
+      .createQueryBuilder('project')
+      .leftJoin('project.employee', 'employee')
+      .leftJoin('project.service', 'service')
+      .leftJoin('project.contract', 'contract')
+      .addSelect(['employee.id', 'service.id', 'contract.id'])
+      .getMany();
+  
+    return projects.map(({ employee, service, contract, ...project }) => ({
+      ...project,
+      id_employee: employee?.id,
+      id_service: service?.id,
+      id_contract: contract?.id,
+    }));
   }
+  
 
   async getTotal(traceId: string): Promise<number> {
     this.logger.log(`[${traceId}] Contando projetos...`);

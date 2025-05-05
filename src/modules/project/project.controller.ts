@@ -46,7 +46,7 @@ export class ProjectController {
     description: 'Lista de projetos para o dashboard',
     type: ProjectEntity
   })
-  async dashboard(@Request() req): Promise<ProjectEntity[]> {
+  async dashboard(@Request() req): Promise<any[]> {
     const traceId = req.traceId;
     return await this.projectService.dashboard(traceId);
   }
