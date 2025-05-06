@@ -15,8 +15,8 @@ export class ContractEntity {
   @Column({ name: 'total_value', type: 'numeric', precision: 10, scale: 2 })
   totalValue: number;
 
-  @Column({ name: 'total_term', nullable: true })
-  totalTerm: number;
+  @Column({ name: 'total_hours', nullable: true })
+  totalHours: number;
 
   @Column({ type: 'enum', enum: ContractStatus, default: ContractStatus.PENDING })
   status: ContractStatus;

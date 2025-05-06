@@ -24,7 +24,7 @@ export class CreateContractDto {
     description: 'Prazo total do contrato em meses. Formato: 12',
     example: 12,
   })
-  totalTerm: number;
+  totalHours: number;
 
 
   @ApiProperty({
