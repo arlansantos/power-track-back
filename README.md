@@ -13,20 +13,6 @@ Power Track é uma API RESTful desenvolvida com NestJS para controle e visualiza
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Adminer](https://www.adminer.org/) (para visualização do banco)
 
-## 💡 Implementação / Evidências:
-
-### Configuração, Mapeamento e Relacionamento do Banco de Dados
-Utilização do TypeORM para realizar a conexão com o banco de dados PostgreSQL de forma eficiente e escalável.
-
-Além disso, foi implementado o mapeamento completo das entidades com base no domínio do sistema: Customer, Contract, Employee, Service e Project. Cada entidade foi anotada com decoradores do TypeORM e do Swagger, permitindo a geração automática da documentação dos modelos e a persistência correta no banco.
-
-### Documentação da API com Swagger
-
-Implementação da documentação da API utilizando o Swagger no NestJS. Configuração da documentação global com título, descrição, versão e autenticação via Bearer Token. Além disso, utilização de decoradores como @ApiProperty e @ApiPropertyOptional nos DTOs para descrever os campos de entrada e saída das rotas, facilitando o entendimento da API por outros desenvolvedores e stakeholders.
-
-### Dockerização
-
-Foi realizada a dockerização completa da aplicação utilizando Dockerfile e docker-compose. O Dockerfile define o ambiente de produção com Node.js e compila o projeto. O docker-compose.yml orquestra os serviços da aplicação (app), banco de dados PostgreSQL (db) e Adminer (adminer) para facilitar a visualização dos dados. Essa estrutura permite que a aplicação seja executada com apenas um comando, tornando o processo de deploy mais ágil e confiável.
 
 ## 🐳 Executando Power Track com Docker Compose
 
