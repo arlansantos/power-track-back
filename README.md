@@ -6,6 +6,7 @@ Power Track é uma API RESTful desenvolvida com NestJS para controle e visualiza
 
 - [Node.js](https://nodejs.org/)
 - [NestJS](https://nestjs.com/)
+- [Typescript](https://www.typescriptlang.org/)
 - [Swagger](https://swagger.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [TypeORM](https://typeorm.io/)
